@@ -27,17 +27,10 @@ MKVFile:
     getArrayOfCodeWordsRec(): rekurzivno se sprehodi cez drevo ko pride do lista shrani kodnobesedo 8bitnega seta
     v array ArrayOfCodeWords[i] kjer je ponovno i desetiski zapis 8bitmega seta in njegova vrednost
     ArrayOfCodeWords[String na i mestu], njegova kodna beseda.
+
+   encode(): kodira po huffmanu zaceten niz, dostop do kodnih besed v ArrayOfCodeWordl, po istem principu kot prej.
 ------------------------------------------------------------------------------------------------------------------------
 Komentarji
 ________________________________________________________________________________________________________________________
-Node in NodeList16BitSet se ne uporablja
 
-Se mi zdi da je Huffman algoritem zlo dobro narjen z min heap in potem drevesom,
-Tudi nimam ideje kako bi izboljsal za racunanje frekvence in vrjetnosti se mi zdi array velikost 2^8 = 256 in
-predstavuitev 8bitnega seta, ki ga kodiramo kot desetiska stevilka i (pretvorba iz dvojiskega 8 bitov 0 ->
-velikosti arrayov), in potem nazaj, kr smiselna, kot nek "hashMap", lahko pa seveda izboljsamo ce se kaj bolsega
-spomnemo.
-
-Rabimo samo se funkcijo da prebere prvotni string vseh bitov in zakodira in seveda stestirat, sam dones nimam casa
-________________________________________________________________________________________________________________________
 
