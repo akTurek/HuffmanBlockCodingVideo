@@ -4,12 +4,14 @@ package org.example;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        /*MKVfile file = new MKVfile("C:\\Users\\lukat\\Downloads\\1031108996-preview.mkv");
-        file.printProb();*/
 
-        Huffman huffman = new Huffman();
+        Huffman huffman = new Huffman("C:\\Users\\lukat\\Downloads\\Asian Woman Not Scared of Iron Man but Black Guy (1).mkv",16);
         huffman.HuffmanCodeTree();
         huffman.getArrayOfCodeWords();
+        huffman.encode();
+
+
+
 
     }
 }

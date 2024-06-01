@@ -5,7 +5,7 @@ MKVFile:
  mkvFileToBits(): prebere Mkv file in pretvori v byte array in bite
 
  mapF8Bits(): steje frekvenco blokov 8bitov nism uporabil nobene fency struktrure ker je array velikosti 256
-    (max vrednost 8 bitov) -> pretvori v desetisko stevko in zapise poveca count na tistem mestu v arrayu mapF8BitBloke
+    (max vrednost 8 bitov) -> pretvori v desetisko stevko in zapise poveca count na tistem mestu v arrayu mapFBitBloke
 
  mapP8Bits(): isti princip samo da deli mapF8Bits[i]/st. vseh blokov 8bitov
 ........................................................................................................................

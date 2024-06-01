@@ -1,36 +1,44 @@
 package org.example;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 
 public class MKVfile {
 
-
     private byte [] bytes;
-    private float [] mapF8BitBloke = new float[256];
-    private float [] mapP8BitBloke = new float[256];
-    private int st8bitBloke;
+    private String allBits;
+    private float [] mapFBitBloke;
+    private float [] mapPBitBloke;
+    private int stBitBloke = 0;
+    private int sizeOfBitBloke;
 
-    public MKVfile(String filePath) {
+
+    public MKVfile(String filePath, int sizeOfBitBlock) {
         this.bytes = mkvFileToBits(filePath);
-        mapF8Bits();
-        mapP8Bits();
+        this.allBits = bytesToBits();
+        this.mapFBitBloke = new float[(int) Math.pow(2,sizeOfBitBlock)];
+        this.mapPBitBloke = new float[(int) Math.pow(2,sizeOfBitBlock)];
+        this.sizeOfBitBloke = sizeOfBitBlock;
+        mapFBits();
+        mapPBits();
 
     }
 
-    public float[] getMapF8BitBloke() {
-        return mapF8BitBloke;
+    public String getAllBits() {
+        return allBits;
     }
 
-    public float[] getMapP8BitBloke() {
-        return mapP8BitBloke;
+    public float[] getmapFBitBloke() {
+        return mapFBitBloke;
     }
 
-    public byte [] mkvFileToBits (String filePath){
+    public float[] getmapPBitBloke() {
+        return mapPBitBloke;
+    }
+
+    public byte [] mkvFileToBits (String filePath){  //array bytev
         try {
             // Pretvorba poti v objekt razreda Path
             Path path = Paths.get(filePath);
@@ -38,43 +46,80 @@ public class MKVfile {
             // Branje vsebine datoteke v byte array
             bytes = Files.readAllBytes(path);
 
-            System.out.println("MKV datoteka uspešno prebrana v byte array.");
+            //System.out.println("MKV datoteka uspešno prebrana v byte array.");
         } catch (IOException e) {
             System.err.println("Napaka pri branju datoteke: " + e.getMessage());
             e.printStackTrace();
         }
-        st8bitBloke = bytes.length;
         return bytes;
     }
 
-    public void mapF8Bits(){
+    public String bytesToBits() {      // string vseh bitov
         StringBuilder stringBuilder = new StringBuilder();
-        NodeList16BitSet list = new NodeList16BitSet();
-        for(int i = 0; i < bytes.length; i++){
-            stringBuilder.append(String.format("%8s", Integer.toBinaryString(bytes[i] & 0xFF)).replace(' ', '0'));
-            int stevilo = Integer.parseInt(stringBuilder.toString(), 2);
-            mapF8BitBloke[stevilo] += 1;
-            stringBuilder.setLength(0);
+        for (byte b : bytes) {
+            String binaryString = String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0');
+            stringBuilder.append(binaryString);
         }
+        return stringBuilder.toString();
+    }
+
+
+
+
+
+    public void mapFBits(){
+        StringBuilder stringBuilder = new StringBuilder();
+        int lenght = allBits.length();
+        for(int i = 0; i < lenght; i+= sizeOfBitBloke){
+            if(i+sizeOfBitBloke <= lenght) {
+                stringBuilder.append(allBits.substring(i, i + sizeOfBitBloke ));
+                int stevilo = Integer.parseInt(stringBuilder.toString(), 2);
+                mapFBitBloke[stevilo] += 1;
+                //System.out.println(stringBuilder.toString());
+                stringBuilder.setLength(0);
+                stBitBloke++;
+            } else {
+                stringBuilder.append("00000000");
+                stringBuilder.append(allBits.substring(i, i + 8 ));
+            }
+        }
+        System.out.println("Stevilo vseh bit blokov je: "+stBitBloke);
+        //System.out.println("Stevilo bytov je: "+bytes.length);
 
     }
 
-    public void mapP8Bits(){
-        for(int i = 0; i < 256; i++) {
-            mapP8BitBloke[i] = mapF8BitBloke[i] / st8bitBloke;
+    public void mapPBits(){
+        double pow = Math.pow(2, sizeOfBitBloke);
+        int lenght = (int) pow;
+        for(int i = 0; i < lenght; i++) {
+            mapPBitBloke[i] = mapFBitBloke[i] / stBitBloke;
         }
     }
 
     public void printProb(){
         for(int i = 0; i < 256; i++) {
-            System.out.println(mapP8BitBloke[i]);
+
+            System.out.println(mapPBitBloke[i]);
         }
     }
 
     public void printFrek(){
         for(int i = 0; i < 256; i++) {
-            System.out.println(mapF8BitBloke[i]);
+            System.out.println(mapFBitBloke[i]);
         }
+    }
+
+    public float entopyX(){
+        float  H = 0;
+
+        for(int i = 0; i < mapPBitBloke.length; i++) {
+            if (mapPBitBloke[i] > 0) {
+                float zacasno = 1 / mapPBitBloke[i];
+                H+= mapPBitBloke[i] * Math.log(zacasno) / Math.log(2);
+                //System.out.println(mapPBitBloke[i]);
+            }
+        }
+        return H;
     }
 
 

@@ -1,21 +1,27 @@
 package org.example;
 
-import java.util.Comparator;
-
 public class HuffmanNode { // node class is the basic structure
     // of each node present in the Huffman - tree.
-    String bit8Block;
+    String bitBlock;
     float prob;
 
     HuffmanNode left;
     HuffmanNode right;
 
+    public HuffmanNode(String bitBlock, float prob) {
+        this.bitBlock = bitBlock;
+        this.prob = prob;
+    }
+    public HuffmanNode() {
+
+    }
+
     public float getProb() {
         return prob;
     }
 
-    public void setBit8Block(String bit8Block) {
-        this.bit8Block = bit8Block;
+    public void setBitBlock(String bitBlock) {
+        this.bitBlock = bitBlock;
     }
 
     public void setProb(float prob) {
@@ -38,8 +44,8 @@ public class HuffmanNode { // node class is the basic structure
         return right;
     }
 
-    public String getBit8Block() {
-        return bit8Block;
+    public String getBitBlock() {
+        return bitBlock;
     }
 }
 
