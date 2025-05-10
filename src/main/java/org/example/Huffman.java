@@ -111,7 +111,7 @@ public class Huffman {
         int startbitsLength = startbits.length();
         for (int i = 0; i <= startbitsLength; i+=sizeOfBitBlock) {
             if(i+sizeOfBitBlock <= startbitsLength) {
-                int indexArrayOfCodeWords = Integer.parseInt(startbits.substring(i, i+sizeOfBitBlock), 2);
+                int indexArrayOfCodeWords = Integer.parseInt(startbits.substring(i, i+sizeOfBitBlock), 2); // is it i+sizeOfBitBlock -1 ?
                 stringBuilder.append(ArrayOfCodeWords[indexArrayOfCodeWords]);
                 //System.out.println("beseda "+startbits.substring(i, i+sizeOfBitBlock)+" index " + indexArrayOfCodeWords + " beseda "+ArrayOfCodeWords[indexArrayOfCodeWords]);
             }
